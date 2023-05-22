@@ -30,23 +30,25 @@ jobs:
 
       - run: pyoxidizer build --release
       
-      - run: ls -lahR
-      # - name: Create artifact
-      #   run: |
-      #     assets="${{ env.APP_NAME }}_$(echo "${{ runner.os }}" | tr '[:upper:]' '[:lower:]')"
-      #     echo "$assets"
-      #     mkdir -p "dist/$assets"
-      #     cp -r ${{ env.RELEASE_FILES }} "dist/$assets/"
-      #     (
-      #       cd dist
-      #       if [[ "${{ runner.os }}" == Windows ]]; then
-      #         7z a "$assets.zip" "$assets"
-      #       else
-      #         tar czf "$assets.tar.gz" "$assets"
-      #       fi
-      #       ls -lah *.*
-      #     )
-      #
+      - run: ls -lahR build
+
+      - name: Create artifact
+        run: |
+          assets="${{ env.APP_NAME }}_$(echo "${{ runner.os }}" | tr '[:upper:]' '[:lower:]')"
+          echo "$assets"
+          mkdir -p "dist/$assets"
+          cp "build/*/release/install/*" dist/
+          cp -r ${{ env.RELEASE_FILES }} "dist/$assets/"
+          (
+            cd dist
+            if [[ "${{ runner.os }}" == Windows ]]; then
+              7z a "$assets.zip" "$assets"
+            else
+              tar czf "$assets.tar.gz" "$assets"
+            fi
+            ls -lah *.*
+          )
+
       - uses: actions/upload-artifact@v3
         with:
           name: artifact-${{ matrix.os }}
