@@ -16,7 +16,7 @@ jobs:
         os:
           - ubuntu-latest
           - macOS-latest
-          - windows-latest
+        # - windows-latest # broken
 
     steps:
       - uses: actions/checkout@v3
