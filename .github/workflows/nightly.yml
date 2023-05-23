@@ -8,9 +8,8 @@ on:
 permissions:
   contents: write
 
-defaults:
-  run:
-    shell: bash
+env:
+  app-name: yartsu
 
 jobs:
   check-commits:
@@ -63,5 +62,5 @@ jobs:
           gh release create nightly \
             --title "Nightly Release (Pre-release)" \
             --prerelease \
-            ./dist/*/tsm*
+            ./${{ env.app-name }}/*/tsm*
 
