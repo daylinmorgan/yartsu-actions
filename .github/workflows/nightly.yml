@@ -8,13 +8,14 @@ on:
 permissions:
   contents: write
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   check-commits:
     runs-on: ubuntu-latest
     name: Check latest commit
-    defaults:
-      run:
-        shell: bash
     outputs:
       quit: ${{ steps.should_run.outputs.quit }}
     steps:
@@ -38,9 +39,6 @@ jobs:
 
   create-release:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
     env:
       GH_TOKEN: ${{ github.token }}
     needs:
