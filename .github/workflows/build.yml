@@ -30,9 +30,12 @@ jobs:
 
       - run: pyoxidizer build --release
 
-      - run: tree build
+      # - run: tree build
+      # more portable tree
+      - run: find build | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
 
       - name: Create artifact
+        shell: bash
         run: |
           assets="${{ env.APP_NAME }}_$(echo "${{ runner.os }}" | tr '[:upper:]' '[:lower:]')"
           echo "$assets"
